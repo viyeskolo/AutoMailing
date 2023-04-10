@@ -1,0 +1,33 @@
+import csv
+import smtplib
+
+# Define the email template
+email_template = """\
+Dear {name},
+
+Thank you for your email. We appreciate your interest in our products.
+
+Best regards,
+Your Name
+"""
+
+# Define a function to customize the email for each recipient
+def customize_email(name, email):
+    customized_email = email_template.format(name=name)
+    return customized_email
+
+# Read the list of recipients from a CSV file
+with open('recipients.csv', newline='') as csvfile:
+    reader = csv.reader(csvfile)
+    recipient_list = [row[0] for row in reader]
+
+# Use a loop to send the customized email to each recipient
+for recipient in recipient_list:
+    name = "Recipient" # Replace with code to retrieve recipient name
+    customized_email = customize_email(name, recipient)
+    # Replace with code to send email using your email client's API or library
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login('your_email@example.com', 'your_password')
+    server.sendmail('your_email@example.com', recipient, customized_email)
+    server.quit()
